@@ -1,0 +1,40 @@
+<html>
+    <script src='https://d3js.org/d3.v5.min.js'></script>
+    <style>circle {fill: red; stroke: black; r: 5}</style>
+    <body onload=init()>
+        <svg width=1000 height=1000 ></svg>
+        <script>
+            async function init() {
+                homeruns = await d3.csv("https://raw.githubusercontent.com/chrisfisch914/CS416-Project2/master/homeruns.csv");
+                svg = d3.select("svg");
+                width = 700;
+                height = 700;
+                margin = 150;
+
+                yearScale = d3.scaleLinear().domain([1900, 2020]).range([0, width])
+                homerunScale = d3.scaleLinear().domain([200, 6000]).range([height, 0])
+                
+                // draw scatter plot
+                svg.append("g")
+                    .attr("transform", "translate(" + margin + "," + margin + ")")
+                    .selectAll("circle")
+                    .data(homeruns)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", (d,i) => yearScale(d.Year))
+                    .attr("cy", (d,i) => homerunScale(d.Total));
+
+                // create y axis
+                svg.append("g")
+                    .attr("transform", "translate(" + margin +"," + margin +")")
+                    .call(d3.axisLeft(homerunScale));
+
+
+                // create x axis
+                svg.append("g")
+                    .attr("transform", "translate(" + margin +"," + (height + margin) +")")
+                    .call(d3.axisBottom(yearScale));
+            }
+        </script>
+    </body>
+</html>

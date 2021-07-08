@@ -1,8 +1,9 @@
 <html>
     <script src='https://d3js.org/d3.v5.min.js'></script>
-    <style>path#line {fill: none; stroke: blue; stroke-width: 1.5}</style>
+    <style>path#line {fill: none; stroke: blue; stroke-width: 3}</style>
     <body onload=init()>
-        <svg width=1000 height=1000 ></svg>
+        <svg width=1000 height=1000 >
+        </svg>
         <script>
             async function init() {
                 homeruns = await loadData()
@@ -13,6 +14,12 @@
 
                 yearScale = d3.scaleTime().domain(d3.extent(homeruns, d => d.Year)).range([0, width]);
                 homerunScale = d3.scaleLinear().domain(d3.extent(homeruns, d => d.Total)).range([height, 0]);
+                bisect = d3.bisector(function(d) { return d.Year;}).left;
+
+                tooltip = svg.append("g")
+                .attr("transform", "translate(" + margin + "," + margin + ")")
+                .append("text")
+                    .style("visibility", "hidden")
 
                 // draw line chart
                 svg.append("g")
@@ -21,31 +28,57 @@
                     .datum(homeruns)
                     .attr("id", "line")
                     .attr("d", d3.line()
-                      .x(function(d) { return yearScale(d.Year) })
-                      .y(function(d) { return homerunScale(d.Total) })
+                      .x(d => yearScale(d.Year))
+                      .y(d => homerunScale(d.Total))
                     );
+
+                // Create mouse events along our line
+                d3.select("#line")
+                    .on("mouseover", mouseover)
+                    .on("mousemove", mousemove)
+                    .on("mouseout", mouseout)
 
                 // create y axis
                 svg.append("g")
                     .attr("transform", "translate(" + margin +"," + margin +")")
                     .call(d3.axisLeft(homerunScale));
 
-
                 // create x axis
                 svg.append("g")
                     .attr("transform", "translate(" + margin +"," + (height + margin) +")")
                     .call(d3.axisBottom(yearScale));
-            }
 
-            async function loadData() {
-                return await d3.csv("https://raw.githubusercontent.com/chrisfisch914/CS416-Project2/master/homeruns.csv",
-                    function (d) {
-                        return {
-                            Year: d3.timeParse("%Y")(d.Year),
-                            Total: parseInt(d.Total)
+                async function loadData() {
+                    return await d3.csv("https://raw.githubusercontent.com/chrisfisch914/CS416-Project2/master/homeruns.csv",
+                        function (d) {
+                            return {
+                                Year: d3.timeParse("%Y")(d.Year),
+                                Total: parseInt(d.Total)
+                            }
                         }
-                    }
-                );
+                    );
+                }
+
+                function mouseover() {
+                    tooltip.style("visibility", "visible");
+                }
+
+                function mousemove() {
+                    x0 = yearScale.invert(d3.mouse(this)[0]);
+                    index = bisect(homeruns, x0, 1)
+                    selectedData = homeruns[index]
+                    tooltip.text(formatToolTipText(selectedData))
+                    tooltip.attr("x", yearScale(selectedData.Year) + 15)
+                    tooltip.attr("y", homerunScale(selectedData.Total))
+                }
+
+                function mouseout() {
+                    tooltip.style("visibility", "hidden");
+                }
+
+                function formatToolTipText(data) {
+                    return "Year: " + data.Year + "\nTotal Homeruns Hit: " + data.Total
+                }
             }
         </script>
     </body>

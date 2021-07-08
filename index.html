@@ -1,7 +1,8 @@
 <html>
     <script src='https://d3js.org/d3.v5.min.js'></script>
-    <style>path#line {fill: none; stroke: blue; stroke-width: 3}</style>
+    <style>path#line {fill: none; stroke: red; stroke-width: 3}</style>
     <body onload=init()>
+        <h1>Homeruns: The Story of Baseball</h1>
         <svg width=1000 height=1000 >
         </svg>
         <script>
@@ -32,11 +33,24 @@
                       .y(d => homerunScale(d.Total))
                     );
 
-                // Create mouse events along our line
-                d3.select("#line")
-                    .on("mouseover", mouseover)
-                    .on("mousemove", mousemove)
-                    .on("mouseout", mouseout)
+                ball = svg.append("g")
+                    .attr("transform", "translate(" + margin +"," + margin +")")
+                    .append("image")
+                    .attr("href", "https://static.vecteezy.com/system/resources/previews/001/203/107/large_2x/baseball-png.png")
+                    .attr("height", 25)
+                    .attr("width", 25)
+                    .style("opacity", 0)
+
+                svg.append("g")
+                    .attr("transform", "translate(" + margin +"," + margin +")")
+                    .append('rect')
+                    .style("fill", "none")
+                    .style("pointer-events", "all")
+                    .attr('width', width)
+                    .attr('height', height)
+                    .on('mouseover', mouseover)
+                    .on('mousemove', mousemove)
+                    .on('mouseout', mouseout);
 
                 // create y axis
                 svg.append("g")
@@ -61,6 +75,7 @@
 
                 function mouseover() {
                     tooltip.style("visibility", "visible");
+                    ball.style("opacity", 1);
                 }
 
                 function mousemove() {
@@ -70,14 +85,17 @@
                     tooltip.text(formatToolTipText(selectedData))
                     tooltip.attr("x", yearScale(selectedData.Year) + 15)
                     tooltip.attr("y", homerunScale(selectedData.Total))
+                    ball.attr("x", yearScale(selectedData.Year) - 10)
+                    ball.attr("y", homerunScale(selectedData.Total) - 10)
                 }
 
                 function mouseout() {
                     tooltip.style("visibility", "hidden");
+                    ball.style("opacity", 0);
                 }
 
                 function formatToolTipText(data) {
-                    return "Year: " + data.Year + "\nTotal Homeruns Hit: " + data.Total
+                    return "Year: " + data.Year.getFullYear() + "\nTotal Homeruns Hit: " + data.Total
                 }
             }
         </script>

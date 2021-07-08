@@ -3,7 +3,7 @@
     <style>path#line {fill: none; stroke: red; stroke-width: 3}</style>
     <body onload=init()>
         <h1>Homeruns: The Story of Baseball</h1>
-        <svg width=1000 height=1000 >
+        <svg width=1200 height=1000 >
         </svg>
         <script>
             async function init() {
@@ -17,9 +17,20 @@
                 homerunScale = d3.scaleLinear().domain(d3.extent(homeruns, d => d.Total)).range([height, 0]);
                 bisect = d3.bisector(function(d) { return d.Year;}).left;
 
+                svg.append("g")
+                    .attr("transform", "translate(" + margin +"," + margin +")")
+                    .append('rect')
+                    .style("fill", "#F5F5F5	")
+                    .style("pointer-events", "all")
+                    .attr('width', width)
+                    .attr('height', height)
+                    .on('mouseover', mouseover)
+                    .on('mousemove', mousemove)
+                    .on('mouseout', mouseout);
+
                 tooltip = svg.append("g")
-                .attr("transform", "translate(" + margin + "," + margin + ")")
-                .append("text")
+                    .attr("transform", "translate(" + margin + "," + margin + ")")
+                    .append("text")
                     .style("visibility", "hidden")
 
                 // draw line chart
@@ -40,17 +51,7 @@
                     .attr("height", 25)
                     .attr("width", 25)
                     .style("opacity", 0)
-
-                svg.append("g")
-                    .attr("transform", "translate(" + margin +"," + margin +")")
-                    .append('rect')
-                    .style("fill", "none")
-                    .style("pointer-events", "all")
-                    .attr('width', width)
-                    .attr('height', height)
-                    .on('mouseover', mouseover)
-                    .on('mousemove', mousemove)
-                    .on('mouseout', mouseout);
+                    .attr("fill", "white")
 
                 // create y axis
                 svg.append("g")

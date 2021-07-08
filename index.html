@@ -11,18 +11,21 @@
                 height = 700;
                 margin = 150;
 
-                yearScale = d3.scaleTime().domain(d3.extent(homeruns, d => d.Year)).range([0, width])
-                homerunScale = d3.scaleLinear().domain(d3.extent(homeruns, d => d.Total)).range([height, 0])
-                
-                // draw scatter plot
+                yearScale = d3.scaleTime().domain(d3.extent(homeruns, d => d.Year)).range([0, width]);
+                homerunScale = d3.scaleLinear().domain(d3.extent(homeruns, d => d.Total)).range([height, 0]);
+
+                // draw line chart
                 svg.append("g")
                     .attr("transform", "translate(" + margin + "," + margin + ")")
-                    .selectAll("circle")
-                    .data(homeruns)
-                    .enter()
-                    .append("circle")
-                    .attr("cx", (d,i) => yearScale(d.Year))
-                    .attr("cy", (d,i) => homerunScale(d.Total));
+                    .append("path")
+                    .datum(homeruns)
+                    .attr("fill", "none")
+                    .attr("stroke", "steelblue")
+                    .attr("stroke-width", 1.5)
+                    .attr("d", d3.line()
+                      .x(function(d) { return yearScale(d.Year) })
+                      .y(function(d) { return homerunScale(d.Total) })
+                    );
 
                 // create y axis
                 svg.append("g")

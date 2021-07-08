@@ -1,6 +1,6 @@
 <html>
     <script src='https://d3js.org/d3.v5.min.js'></script>
-    <style>circle {fill: red; stroke: black; r: 5}</style>
+    <style>path#line {fill: none; stroke: blue; stroke-width: 1.5}</style>
     <body onload=init()>
         <svg width=1000 height=1000 ></svg>
         <script>
@@ -19,9 +19,7 @@
                     .attr("transform", "translate(" + margin + "," + margin + ")")
                     .append("path")
                     .datum(homeruns)
-                    .attr("fill", "none")
-                    .attr("stroke", "steelblue")
-                    .attr("stroke-width", 1.5)
+                    .attr("id", "line")
                     .attr("d", d3.line()
                       .x(function(d) { return yearScale(d.Year) })
                       .y(function(d) { return homerunScale(d.Total) })

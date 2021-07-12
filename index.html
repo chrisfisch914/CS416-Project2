@@ -1,8 +1,8 @@
 <html>
     <script src='https://d3js.org/d3.v5.min.js'></script>
-    <style>path#line {fill: none; stroke: red; stroke-width: 3}</style>
+    <style>path.homerunChart {fill: none; stroke: red; stroke-width: 3}</style>
     <body onload=init()>
-        <h1>Homeruns: The Story of Baseball</h1>
+        <!-- <h1>Homeruns: The Story of Baseball</h1> -->
         <svg width=1500 height=1000 >
         </svg>
         <script>
@@ -13,55 +13,74 @@
                 height = 700;
                 margin = 150;
 
-                yearScale = d3.scaleTime().domain(d3.extent(homeruns, d => d.Year)).range([0, width]);
-                homerunScale = d3.scaleLinear().domain(d3.extent(homeruns, d => d.Total)).range([height, 0]);
-                bisect = d3.bisector(function(d) { return d.Year;}).left;
+                // yearScale = d3.scaleTime().domain(d3.extent(homeruns, d => d.Year)).range([0, width]);
+                // homerunScale = d3.scaleLinear().domain(d3.extent(homeruns, d => d.Total)).range([height, 0]);
+                // bisect = d3.bisector(function(d) { return d.Year;}).left;
 
-                svg.append("g")
-                    .attr("transform", "translate(" + margin +"," + margin +")")
-                    .append('rect')
-                    .style("fill", "#F5F5F5	")
-                    .style("pointer-events", "all")
-                    .attr('width', width)
-                    .attr('height', height)
-                    .on('mouseover', mouseover)
-                    .on('mousemove', mousemove)
-                    .on('mouseout', mouseout);
+                yearScale = d3.scaleTime().range([0, width]);
+                homerunScale = d3.scaleLinear().range([height, 0]);
+
+                thru1920 = homeruns.filter(d => d.Year.getFullYear() <= 1920)
+
+                // svg.append("g")
+                //     .attr("transform", "translate(" + margin +"," + margin +")")
+                //     .append('rect')
+                //     .style("fill", "#F5F5F5	")
+                //     .style("pointer-events", "all")
+                //     .attr('width', width)
+                //     .attr('height', height)
+                //     .on('mouseover', mouseover)
+                //     .on('mousemove', mousemove)
+                //     .on('mouseout', mouseout);
 
                 // draw line chart
-                svg.append("g")
+                chart = svg.append("g")
                     .attr("transform", "translate(" + margin + "," + margin + ")")
                     .append("path")
-                    .datum(homeruns)
-                    .attr("id", "line")
-                    .attr("d", d3.line()
-                      .x(d => yearScale(d.Year))
-                      .y(d => homerunScale(d.Total))
-                    );
-                
-                tooltip = svg.append("g")
-                    .attr("transform", "translate(" + margin + "," + margin + ")")
-                    .append("text")
-                    .style("visibility", "hidden");
+                        .attr("class", "homerunChart");
 
-                ball = svg.append("g")
-                    .attr("transform", "translate(" + margin +"," + margin +")")
-                    .append("image")
-                    .attr("href", "https://static.vecteezy.com/system/resources/previews/001/203/107/large_2x/baseball-png.png")
-                    .attr("height", 25)
-                    .attr("width", 25)
-                    .style("opacity", 0)
-                    .attr("fill", "white");
+                // svg.append("g")
+                //     .attr("transform", "translate(" + margin + "," + margin + ")")
+                //     .append("path")
+                //     .datum(homeruns)
+                //     .attr("id", "line")
+                //     .attr("d", d3.line()
+                //       .x(d => yearScale(d.Year))
+                //       .y(d => homerunScale(d.Total))
+                //     );
+                
+                // tooltip = svg.append("g")
+                //     .attr("transform", "translate(" + margin + "," + margin + ")")
+                //     .append("text")
+                //     .style("visibility", "hidden");
+
+                // ball = svg.append("g")
+                //     .attr("transform", "translate(" + margin +"," + margin +")")
+                //     .append("image")
+                //     .attr("href", "https://static.vecteezy.com/system/resources/previews/001/203/107/large_2x/baseball-png.png")
+                //     .attr("height", 25)
+                //     .attr("width", 25)
+                //     .style("opacity", 0)
+                //     .attr("fill", "white");
 
                 // create y axis
+                homerunAxis = d3.axisLeft(homerunScale)
                 svg.append("g")
                     .attr("transform", "translate(" + margin +"," + margin +")")
-                    .call(d3.axisLeft(homerunScale));
+                    .attr("class", "homerunScaleAxis")
+                    // .call(d3.axisLeft(homerunScale));
 
                 // create x axis
+                yearAxis = d3.axisBottom(yearScale)
                 svg.append("g")
                     .attr("transform", "translate(" + margin +"," + (height + margin) +")")
-                    .call(d3.axisBottom(yearScale));
+                    .attr("class", "yearScaleAxis")
+                    // .call(d3.axisBottom(yearScale));
+
+                update(thru1920, 0)
+                await new Promise(r => setTimeout(r, 3000));
+                update(homeruns, 3000)
+
 
                 async function loadData() {
                     return await d3.csv("https://raw.githubusercontent.com/chrisfisch914/CS416-Project2/master/homeruns.csv",
@@ -97,6 +116,43 @@
 
                 function formatToolTipText(data) {
                     return "Year: " + data.Year.getFullYear() + "\nTotal Homeruns Hit: " + data.Total;
+                }
+
+                function update(data, duration=0) {
+                    // update x axis
+                    yearScale.domain(d3.extent(data, d => d.Year))
+                    svg.selectAll(".yearScaleAxis")
+                        .transition()
+                        .duration(duration)
+                        .call(yearAxis);
+
+                    // update y axis
+                    homerunScale.domain(d3.extent(data, d => d.Total))
+                    svg.selectAll(".homerunScaleAxis")
+                        .transition()
+                        .duration(duration)
+                        .call(homerunAxis);
+
+                    // update chart
+                    updatedChart = svg.selectAll(".homerunChart")
+                    .datum(data)
+
+                    const pathLength = updatedChart.node().getTotalLength();
+
+
+                    updatedChart.enter()
+                        .append("path")
+                        .merge(updatedChart)
+                        // .attr("stroke-dashoffset", pathLength)
+                        // .attr("stroke-dasharray", pathLength)
+                        .transition()
+                        .duration(duration)
+                        // .attr("stroke-dashoffset", 0)
+                        .attr("d", d3.line()
+                            .x(d => yearScale(d.Year))
+                            .y(d => homerunScale(d.Total))
+                        );
+                    
                 }
             }
         </script>

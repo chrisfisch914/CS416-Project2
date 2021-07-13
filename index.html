@@ -7,7 +7,7 @@
         <button onclick="update('1950')">1950's</button>
         <button onclick="update('2000')">2000's</button>
         <button onclick="update('Current')">Present Day</button>
-        <svg width=1500 height=1000 >
+        <svg width=1500 height=1000>
         </svg>
         <script>
             width = 1000;
@@ -19,24 +19,18 @@
             yearToData = {};
 
             async function init() {
-                homeruns = await loadData()
-                svg = d3.select("svg");
-               
-
-                yearScale.domain(d3.extent(homeruns, d => d.Year))
-                homerunScale.domain(d3.extent(homeruns, d => d.Total))
-
-
+                homeruns = await loadData();
+                yearScale.domain(d3.extent(homeruns, d => d.Year));
+                homerunScale.domain(d3.extent(homeruns, d => d.Total));
+                bisect = d3.bisector(function(d) { return d.Year;}).left;
                 yearToData = {
                     '1920': homerunsThrough(homeruns, 1920),
                     '1950': homerunsThrough(homeruns, 1950),
                     '2000': homerunsThrough(homeruns, 2000),
                     'Current': homeruns
-                }
-                
-                bisect = d3.bisector(function(d) { return d.Year;}).left;
+                };
 
-
+                svg = d3.select("svg");
                 svg.append("g")
                     .attr("transform", "translate(" + margin +"," + margin +")")
                     .append('rect')
@@ -88,7 +82,7 @@
                     .call(d3.axisBottom(yearScale));
 
                 function homerunsThrough (homeruns, year) {
-                    return homeruns.filter(d => d.Year.getFullYear() <= year)
+                    return homeruns.filter(d => d.Year.getFullYear() <= year);
                 }
 
                 async function loadData() {
@@ -129,31 +123,31 @@
             }
 
             function update(year, duration=3000) {
-                    data = yearToData[year]
-                    svg = d3.selectAll("svg")
-                    chart = svg.select(".homerunChart")
+                data = yearToData[year];
+                svg = d3.selectAll("svg");
+                chart = svg.select(".homerunChart");
 
-                    // update x axis
-                    yearScale.domain(d3.extent(data, d => d.Year))
-                    svg.selectAll(".yearScaleAxis")
-                        .transition()
-                        .duration(duration)
-                        .call(yearAxis);
+                // update x axis
+                yearScale.domain(d3.extent(data, d => d.Year));
+                svg.selectAll(".yearScaleAxis")
+                    .transition()
+                    .duration(duration)
+                    .call(yearAxis);
 
-                    // update y axis
-                    homerunScale.domain(d3.extent(data, d => d.Total))
-                    svg.selectAll(".homerunScaleAxis")
-                        .transition()
-                        .duration(duration)
-                        .call(homerunAxis);
+                // update y axis
+                homerunScale.domain(d3.extent(data, d => d.Total))
+                svg.selectAll(".homerunScaleAxis")
+                    .transition()
+                    .duration(duration)
+                    .call(homerunAxis);
 
-                    // update the chart
-                    chart.transition()
-                        .duration(3000)
-                        .attr("d", d3.line()
-                          .x(d => yearScale(d.Year))
-                          .y(d => homerunScale(d.Total))
-                        );
+                // update the chart
+                chart.transition()
+                    .duration(3000)
+                    .attr("d", d3.line()
+                      .x(d => yearScale(d.Year))
+                      .y(d => homerunScale(d.Total))
+                    );
             }
         </script>
     </body>

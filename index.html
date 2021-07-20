@@ -1,16 +1,17 @@
 <html>
     <script src='https://d3js.org/d3.v5.min.js'></script>
     <style>path.homerunChart {fill: none; stroke: red; stroke-width: 3}</style>
+    <style>circle {fill: blue; stroke: none; r: 5}</style>
     <body onload=init()>
-        <!-- <h1>Homeruns: The Story of Baseball</h1> -->
+        <h1>Homeruns: The Story of Baseball</h1>
         <button onclick="update('1920')">1920's</button>
         <button onclick="update('1950')">1950's</button>
         <button onclick="update('2000')">2000's</button>
         <button onclick="update('Current')">Present Day</button>
-        <svg width=1500 height=1000>
+        <svg width=1300 height=1000>
         </svg>
         <script>
-            width = 1000;
+            width = 1300;
             height = 700;
             margin = 150;
 
@@ -29,6 +30,17 @@
                     '2000': homerunsThrough(homeruns, 2000),
                     'Current': homeruns
                 };
+
+                annotationsToDisplay = [
+                    {
+                        "year": 1920,
+                        "text": "The year was 1920"
+                    },
+                    {
+                        "year": 1950,
+                        "text": "And baseball was booming"
+                    }
+                ];
 
                 svg = d3.select("svg");
                 svg.append("g")
@@ -53,11 +65,13 @@
                       .y(d => homerunScale(d.Total))
                     );
                 
+                // tooltip that will be displayed when we hover over a specific area
                 tooltip = svg.append("g")
                     .attr("transform", "translate(" + margin + "," + margin + ")")
                     .append("text")
                     .style("visibility", "hidden");
 
+                // ball that indicates location on graph
                 ball = svg.append("g")
                     .attr("transform", "translate(" + margin +"," + margin +")")
                     .append("image")
@@ -66,6 +80,15 @@
                     .attr("width", 25)
                     .style("opacity", 0)
                     .attr("fill", "white");
+
+                // create annotation circle
+                createAnnotations()
+
+                // create annotation
+                annotation = svg.append("g")
+                    .attr("transform", "translate(" + margin + "," + margin + ")")
+                    .append("text")
+                    .style("visibility", "hidden")
 
                 // create y axis
                 homerunAxis = d3.axisLeft(homerunScale)
@@ -94,6 +117,31 @@
                             };
                         }
                     );
+                }
+
+                function createAnnotations() {
+                    annotationsToDisplay.forEach(anno => {
+                        matchingYear = homeruns.find(homerun => homerun.Year.getFullYear() == anno.year)
+                        anno.circle = svg.append("g")
+                        .attr("transform", "translate(" + margin +"," + margin +")")
+                        .append("circle")
+                            .attr("cx", yearScale(matchingYear.Year))
+                            .attr("cy", homerunScale(matchingYear.Total))
+                            .on('mouseover', displayAnnotation(anno))
+                            .on('mouseout', hideAnnotation);
+                    });
+                }
+
+                function displayAnnotation(anno) {
+                    return () => {
+                        mouseover()
+                        annotation.style("visibility", "visible");
+                        annotation.text(anno.text);
+                    }
+                }
+
+                function hideAnnotation() {
+                    annotation.style("visibility", "hidden");
                 }
 
                 function mouseover() {
@@ -148,6 +196,15 @@
                       .x(d => yearScale(d.Year))
                       .y(d => homerunScale(d.Total))
                     );
+
+                // update annotations
+                annotationsToDisplay.forEach(anno => {
+                    matchingYear = homeruns.find(homerun => homerun.Year.getFullYear() == anno.year)
+                    anno.circle.transition()
+                        .duration(3000)
+                        .attr("cx", yearScale(matchingYear.Year))
+                        .attr("cy", homerunScale(matchingYear.Total))
+                })
             }
         </script>
     </body>

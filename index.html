@@ -39,7 +39,7 @@
                     },
                     {
                         "year": 1950,
-                        "text": "And baseball was booming"
+                        "text": "1947: Jackie Robinson breaks the color barrier"
                     },
                     {
                         "year": 2000,
@@ -89,7 +89,6 @@
                     .attr("width", 15)
                     .style("opacity", 0)
                     .attr("fill", "white");
-
 
                 annoationSVG = d3.select("#annotation")
 
@@ -147,8 +146,8 @@
                     tooltip.text(formatToolTipText(selectedData));
                     tooltip.attr("x", yearScale(selectedData.Year) + 15);
                     tooltip.attr("y", homerunScale(selectedData.Total));
-                    ball.attr("x", yearScale(selectedData.Year) - 10);
-                    ball.attr("y", homerunScale(selectedData.Total) - 10);
+                    ball.attr("x", yearScale(selectedData.Year) - 7);
+                    ball.attr("y", homerunScale(selectedData.Total) - 7);
                 }
 
                 function mouseout() {

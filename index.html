@@ -9,7 +9,6 @@
         <button onclick="update('2000')">2000's</button>
         <button onclick="update('Current')">Present Day</button>
         <br></br>
-        <svg width=1000 height=100 id="annotation"></svg>
         <svg width=1000 height=1000 id="chart"></svg>
         <script>
             width = 1000;
@@ -35,15 +34,15 @@
                 annotationsToDisplay = [
                     {
                         "year": 1920,
-                        "text": "The year was 1920"
+                        "text": "1910: Cork center introduced to offical baseballs"
                     },
                     {
                         "year": 1950,
-                        "text": "1947: Jackie Robinson breaks the color barrier"
+                        "text": "1925: Pitchers offically allowed to use resin bags. 1947: Jackie Robinson breaks the color barrier"
                     },
                     {
                         "year": 2000,
-                        "text": "but suddently"
+                        "text": "1960: Strike zone reduced to only include the area from the batter's armpits to the tops of their knees. 1971: Batters required to wear helmets for protection. 1968: Spitballs outlawed"
                     },
                     {
                         "year": "Current",
@@ -90,7 +89,11 @@
                     .style("opacity", 0)
                     .attr("fill", "white");
 
-                annoationSVG = d3.select("#annotation")
+                annoationSVG = svg.append("svg")
+                    .attr("width", "500")
+                    .attr("height", "100")
+                    .attr("x", margin)
+                    .attr("y", margin)
 
                 annoationSVG.append("rect")
                     .attr("width", "100%")
@@ -98,7 +101,11 @@
                     .attr("x", 0)
                     .attr("y", 0)
                     .attr("fill", "white")
-                    .attr("stroke", "Red");
+                    .attr("stroke", "Red")
+                    .style("pointer-events", "all")
+                    .on('mouseover', mouseover)
+                    .on('mousemove', mousemove)
+                    .on('mouseout', mouseout);
 
                 annotationText = annoationSVG.append("text")
                     .attr("x", 20)

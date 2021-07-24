@@ -23,10 +23,6 @@
             async function init() {
                 homeruns = await loadData();
                 annotationsToDisplay = await loadAnnotations()
-                yearScale.domain(d3.extent(homeruns, d => d.Year));
-
-                homerunScale.domain(d3.extent(homeruns, d => d.Total));
-                bisect = d3.bisector(function(d) { return d.Year;}).left;
 
                 yearToData = {
                     '1920': homerunsThrough(homeruns, 1920),
@@ -35,6 +31,10 @@
                     'Current': homeruns
                 };
 
+                yearScale.domain(d3.extent(yearToData['1920'], d => d.Year));
+                homerunScale.domain(d3.extent(yearToData['1920'], d => d.Total));
+                bisect = d3.bisector(function(d) { return d.Year;}).left;
+                
                 svg = d3.select("#chart");
                 svg.append("g")
                     .attr("transform", "translate(" + margin +"," + margin +")")
@@ -142,7 +142,8 @@
                     selectedData = homeruns[index];
 
                     tooltip.html(formatToolTipText(selectedData));
-                    tooltip.style("top", homerunScale(selectedData.Total) + 25).style("left", yearScale(selectedData.Year) + 65)
+                    tooltip.attr("transform", "translate(" + margin +"," + margin +")")
+                    tooltip.style("top", homerunScale(selectedData.Total) + 25).style("left", yearScale(selectedData.Year) + 100)
 
                     ball.attr("x", yearScale(selectedData.Year) - 7);
                     ball.attr("y", homerunScale(selectedData.Total) - 7);

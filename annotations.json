@@ -1,0 +1,32 @@
+[
+    {
+        "year": 1920,
+        "facts": [
+            "1910: Cork center introduced to offical baseballs",
+            "This is a test"
+        ]
+    },
+    {
+        "year": 1950,
+        "facts": [
+            "1925: Pitchers offically allowed to use resin bags",
+            "1947: Jackie Robinson breaks the color barrier"
+        ]
+    },
+    {
+        "year": 2000,
+        "facts": [
+            "1960: Strike zone reduced to only include the area from the batter's armpits",
+            "to the tops of their knees",
+            "",
+            "1971: Batters required to wear helmets for protection",
+            "1968: Spitballs outlawed"
+        ]
+    },
+    {
+        "year": "Current",
+        "facts": [
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dapibus efficitur mi non dapibus. Sed maximus hendrerit metus nec vulputate. Aliquam facilisis quis risus eu hendrerit. In malesuada tortor sit amet ex semper dictum. Nulla facilisi. Ut pellentesque diam vel massa dictum consectetur. Ut consectetur risus quis felis egestas scelerisque. Vestibulum id dictum nisl. Morbi tincidunt augue a ornare viverra. Nulla posuere ut magna et venenatis. Integer dictum risus sed accumsan egestas. Nullam fringilla porta risus, eget pretium lorem lacinia vitae. Cras mollis nisl nec ex fringilla, eget gravida neque congue. Morbi elementum auctor diam, eu laoreet purus ultrices quis. Integer pretium sodales est sit amet mattis. Vivamus placerat auctor hendrerit. Morbi egestas leo dui, vitae maximus sem mattis sed. In varius odio faucibus ipsum luctus, nec accumsan libero commodo. Vestibulum viverra suscipit turpis non blandit."
+        ]
+    }
+]

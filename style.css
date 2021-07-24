@@ -1,7 +1,11 @@
 path.homerunChart {
     fill: none;
     stroke: red;
-    stroke-width: 3
+    stroke-width: 2
+}
+
+h1 {
+    font-family: 'Graduate', cursive;
 }
 
 div.tip {	
@@ -11,7 +15,7 @@ div.tip {
     height: 50px;					
     padding: 2px;				
     font: 12px sans-serif;		
-    background: #CD5C5C;	
+    background: #ffcccb;	
     border: 0px;		
     border-radius: 8px;			
     pointer-events: none;			
@@ -33,8 +37,8 @@ rect.annotationSVG {
 }
 
 image.ball {
-    height: 15;
-    width: 15;
+    height: 20;
+    width: 20;
     opacity: 0;
     fill: white;
 }

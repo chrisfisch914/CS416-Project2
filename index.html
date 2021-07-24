@@ -8,13 +8,14 @@
             <button type="button" class="btn btn-danger" onclick="update('1920')">1920</button>
             <button type="button" class="btn btn-danger" onclick="update('1950')">1950</button>
             <button type="button" class="btn btn-danger" onclick="update('2000')">2000</button>
-            <button type="button" class="btn btn-danger" onclick="update('Current')">Present Day</button>
+            <button type="button" class="btn btn-danger" onclick="update('2019')">2019</button>
         </div>
         <svg width=1000 height=500 id="chart"></svg>        
         <script>
             width = 1000;
             height = 430;
             margin = 35;
+            tspanDy = 25;
 
             yearScale = d3.scaleTime().range([0, width - margin]);
             homerunScale = d3.scaleLinear().range([height, 0]);
@@ -28,7 +29,7 @@
                     '1920': homerunsThrough(homeruns, 1920),
                     '1950': homerunsThrough(homeruns, 1950),
                     '2000': homerunsThrough(homeruns, 2000),
-                    'Current': homeruns
+                    '2019': homeruns
                 };
 
                 yearScale.domain(d3.extent(yearToData['1920'], d => d.Year));
@@ -74,19 +75,19 @@
                         .on('mousemove', mousemove)
                         .on('mouseout', mouseout);
 
-                annoationSVG = svg.append("svg")
+                annotationSVG = svg.append("svg")
                     .attr("width", "500")
-                    .attr("height", "100")
+                    .attr("height", "200")
                     .attr("x", margin)
                     .attr("y", margin)
 
-                annoationSVG.append("rect")
+                annotationSVG.append("rect")
                     .attr("class", "annotationSVG")
                     .on('mouseover', mouseover)
                     .on('mousemove', mousemove)
                     .on('mouseout', mouseout);
 
-                annotationText = annoationSVG.append("text")
+                annotationText = annotationSVG.append("text")
                     .attr("x", 20)
                     .attr("y", 20)
 
@@ -95,7 +96,7 @@
                     .enter()
                     .append("tspan")
                         .attr("x", 5)
-                        .attr("dy", 15)
+                        .attr("dy", tspanDy)
                         .text((d) => d)
 
                 // create y axis
@@ -197,7 +198,7 @@
                     .enter()
                     .append("tspan")
                         .attr("x", 5)
-                        .attr("dy", 15)
+                        .attr("dy", tspanDy)
                         .text((d) => d)
             }
         </script>

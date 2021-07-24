@@ -17,7 +17,7 @@
             height = 430;
             margin = 35;
 
-            yearScale = d3.scaleTime().range([0, width]);
+            yearScale = d3.scaleTime().range([0, width - margin]);
             homerunScale = d3.scaleLinear().range([height, 0]);
             yearToData = {};
 
@@ -60,10 +60,18 @@
                     );
                 
                 // tooltip that will be displayed when we hover over a specific area
-                tooltip = svg.append("g")
-                    .attr("transform", "translate(" + margin + "," + margin + ")")
-                    .append("text")
-                    .style("visibility", "hidden");
+                tooltip = d3.select("body")
+                    .append("div")
+                        .attr("width", "60px")
+                        .attr("height", "28px")
+                        .style("padding", "2px")
+                        .style("position", "absolute")
+                        .style("background", "#CD5C5C")
+                        .style("border", "0px")
+                        .style("border-radius", "8px")
+                        .style("text-align", "center")
+                        .style("visibility", "hidden");
+
 
                 // ball that indicates location on graph
                 ball = svg.append("g")
@@ -73,7 +81,10 @@
                     .attr("height", 15)
                     .attr("width", 15)
                     .style("opacity", 0)
-                    .attr("fill", "white");
+                    .attr("fill", "white")
+                    .on('mouseover', mouseover)
+                    .on('mousemove', mousemove)
+                    .on('mouseout', mouseout);;
 
                 annoationSVG = svg.append("svg")
                     .attr("width", "500")
@@ -148,9 +159,10 @@
                     x0 = yearScale.invert(d3.mouse(this)[0]);
                     index = bisect(homeruns, x0, 1);
                     selectedData = homeruns[index];
-                    tooltip.text(formatToolTipText(selectedData));
-                    tooltip.attr("x", yearScale(selectedData.Year) + 15);
-                    tooltip.attr("y", homerunScale(selectedData.Total));
+
+                    tooltip.html(formatToolTipText(selectedData));
+                    tooltip.style("top", homerunScale(selectedData.Total) + 25).style("left", yearScale(selectedData.Year) + 65)
+
                     ball.attr("x", yearScale(selectedData.Year) - 7);
                     ball.attr("y", homerunScale(selectedData.Total) - 7);
                 }
@@ -161,7 +173,10 @@
                 }
 
                 function formatToolTipText(data) {
-                    return "Year: " + data.Year.getFullYear() + " Total Homeruns Hit: " + data.Total;
+                    return `
+                        Year: ${data.Year.getFullYear()} </br>
+                        Total HR's: ${data.Total}
+                    `;
                 }
             }
 

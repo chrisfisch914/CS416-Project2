@@ -52,16 +52,27 @@
                     .on('mousemove', mousemove)
                     .on('mouseout', mouseout);
 
+                svg.append("clipPath")
+                    .attr("id", "clippy")
+                    .append("rect")
+                    .attr("transform", "translate(" + margin + "," + margin + ")")
+                        .attr("x", 0)
+                        .attr("y", 0)
+                        .attr("width", width - margin)
+                        .attr("height", height)
+
                 // draw line chart
                 chart = svg.append("g")
                     .attr("transform", "translate(" + margin + "," + margin + ")")
                     .append("path")
                     .datum(homeruns)
                     .attr("class", "homerunChart")
+                    .attr("clip-path", "url(#clippy)")
                     .attr("d", d3.line()
                       .x(d => yearScale(d.Year))
                       .y(d => homerunScale(d.Total))
-                    );
+                    )
+
                 
                 // tooltip that will be displayed when we hover over a specific area
                 tooltip = d3.select("body")
@@ -80,29 +91,29 @@
                         .on('mousemove', mousemove)
                         .on('mouseout', mouseout);
 
-                annotationSVG = svg.append("svg")
-                    .attr("width", "50%")
-                    .attr("height", "25%")
-                    .attr("x", margin)
-                    .attr("y", margin)
+                // annotationSVG = svg.append("svg")
+                //     .attr("width", "50%")
+                //     .attr("height", "25%")
+                //     .attr("x", margin)
+                //     .attr("y", margin)
 
-                annotationSVG.append("rect")
-                    .attr("class", "annotationSVG")
-                    .on('mouseover', mouseover)
-                    .on('mousemove', mousemove)
-                    .on('mouseout', mouseout);
+                // annotationSVG.append("rect")
+                //     .attr("class", "annotationSVG")
+                //     .on('mouseover', mouseover)
+                //     .on('mousemove', mousemove)
+                //     .on('mouseout', mouseout);
 
-                annotationText = annotationSVG.append("text")
-                    .attr("x", 20)
-                    .attr("y", 20)
+                // annotationText = annotationSVG.append("text")
+                //     .attr("x", 20)
+                //     .attr("y", 20)
 
-                annotationText.selectAll("tspan")
-                    .data(annotationsToDisplay[0].facts)
-                    .enter()
-                    .append("tspan")
-                        .attr("x", 5)
-                        .attr("dy", tspanDy)
-                        .text((d) => d)
+                // annotationText.selectAll("tspan")
+                //     .data(annotationsToDisplay[0].facts)
+                //     .enter()
+                //     .append("tspan")
+                //         .attr("x", 5)
+                //         .attr("dy", tspanDy)
+                //         .text((d) => d)
 
                 // create y axis
                 homerunAxis = d3.axisLeft(homerunScale)

@@ -15,10 +15,10 @@
             <button type="button" class="btn btn-danger btn-lg" onclick="update('2000')">2000</button>&nbsp
             <button type="button" class="btn btn-danger btn-lg" onclick="update('2019')">2019</button>
         </div>
-        <svg width=1000 height=500 id="chart"></svg>        
+        <svg width=1200 height=600 id="chart"></svg>        
         <script>
-            width = 900;
-            height = 400;
+            width = 1100;
+            height = 500;
             margin = 50;
             tspanDy = 25;
 
@@ -157,7 +157,7 @@
 
                     tooltip.html(formatToolTipText(selectedData));
                     tooltip.attr("transform", "translate(" + margin +"," + margin +")")
-                    tooltip.style("top", homerunScale(selectedData.Total) + 25).style("left", yearScale(selectedData.Year) + 100)
+                    tooltip.style("top", homerunScale(selectedData.Total) + 130).style("left", yearScale(selectedData.Year))
 
                     ball.attr("x", yearScale(selectedData.Year) - 7);
                     ball.attr("y", homerunScale(selectedData.Total) - 7);

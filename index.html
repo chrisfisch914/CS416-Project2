@@ -134,7 +134,7 @@
                 }
 
                 async function loadData() {
-                    return await d3.csv("https://raw.githubusercontent.com/chrisfisch914/CS416-Project2/master/homeruns.csv",
+                    return await d3.csv("https://raw.githubusercontent.com/chrisfisch914/CS416-Project2/beautify/homeruns.csv",
                         function (d) {
                             return {
                                 Year: d3.timeParse("%Y")(d.Year),

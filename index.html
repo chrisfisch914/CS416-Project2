@@ -73,37 +73,24 @@
                       .y(d => homerunScale(d.Total))
                     )
 
-                
-                // tooltip that will be displayed when we hover over a specific area
-                // tooltip = d3.select("body")
-                //     .append("div")
-                //         .attr("class", "tip")
-                //         .style("visibility", "hidden");
+                tooltip = svg.append("svg")
+                    .attr("width", 75)
+                    .attr("height", 50)
+                    .style("visibility", "hidden")
 
-                tooltip = svg.append("rect")
-                    .attr("fill", "red")
-                    .attr("width", 100)
-                    .attr("height", 100)
-                    .style("visibility", "hidden");
-
-
-
-                // tooltip = svg.append("svg")
-                //     // .attr("class", "tooltip")
-                //     .attr("width", 100)
-                //     .attr("height", 100)
-                //     .attr("x", 100)
-                //     .attr("y", 100)
-                    
                 tooltip.append("rect")
-                    .attr("fill", "red")
-                    .attr("x", 0)
-                    .attr("y", 0)
-                    .attr("width", "100%")
-                    .attr("height", "100%")
-                    // .text("Hello World")
-                    // .attr("visibility", "hidden")
+                    .attr("rx", 5)
+                    .attr("class", "tip");
 
+                tooltipText = tooltip.append("text");
+                yearTspan = tooltipText.append("tspan")
+                    .attr("x", 10)
+                    .attr("y", 20)
+                    .attr("class", "info");
+                totalTspan = tooltipText.append("tspan")
+                    .attr("x", 10)
+                    .attr("dy", 20)
+                    .attr("class", "info");
 
                 // ball that indicates location on graph
                 ball = svg.append("g")
@@ -111,9 +98,9 @@
                     .append("image")
                         .attr("class", "ball")
                         .attr("href", "https://static.vecteezy.com/system/resources/previews/001/203/107/large_2x/baseball-png.png")
-                        // .on('mouseover', mouseover)
-                        // .on('mousemove', mousemove)
-                        // .on('mouseout', mouseout);
+                        .on('mouseover', mouseover)
+                        .on('mousemove', mousemove)
+                        .on('mouseout', mouseout);
 
                 // create annotation
                 d3.select("span").append("ul")
@@ -166,10 +153,13 @@
                     index = bisect(homeruns, x0, 1);
                     selectedData = homeruns[index];
 
-                    // tooltip.html(formatToolTipText(selectedData));
-                    tooltip.attr("transform", "translate(" + margin +"," + margin +")")
-                    tooltip.attr("x", yearScale(selectedData.Year)).attr("y", homerunScale(selectedData.Total))
-                    // tooltip.text("Hello World")
+                    tooltip
+                        .attr("transform", "translate(" + margin +"," + margin +")")
+                        .attr("x", yearScale(selectedData.Year) - 30)
+                        .attr("y", homerunScale(selectedData.Total) - 10);
+
+                    yearTspan.text(`Year: ${selectedData.Year.getFullYear()}`);
+                    totalTspan.text(`HR's: ${selectedData.Total}`);
 
                     ball.attr("x", yearScale(selectedData.Year) - 7);
                     ball.attr("y", homerunScale(selectedData.Total) - 7);
@@ -178,13 +168,6 @@
                 function mouseout() {
                     tooltip.style("visibility", "hidden");
                     ball.style("opacity", 0);
-                }
-
-                function formatToolTipText(data) {
-                    return `
-                        Year: ${data.Year.getFullYear()} </br>
-                        Total HR's: ${data.Total}
-                    `;
                 }
             }
 

@@ -32,6 +32,11 @@ div.tip {
     pointer-events: none;			
 }
 
+svg.tooltip {
+    width: 75px;
+    height: 50px;
+}
+
 span.annotation {
     position: absolute;
     border-style: solid;

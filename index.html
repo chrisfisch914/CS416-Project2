@@ -75,10 +75,34 @@
 
                 
                 // tooltip that will be displayed when we hover over a specific area
-                tooltip = d3.select("body")
-                    .append("div")
-                        .attr("class", "tip")
-                        .style("visibility", "hidden");
+                // tooltip = d3.select("body")
+                //     .append("div")
+                //         .attr("class", "tip")
+                //         .style("visibility", "hidden");
+
+                tooltip = svg.append("rect")
+                    .attr("fill", "red")
+                    .attr("width", 100)
+                    .attr("height", 100)
+                    .style("visibility", "hidden");
+
+
+
+                // tooltip = svg.append("svg")
+                //     // .attr("class", "tooltip")
+                //     .attr("width", 100)
+                //     .attr("height", 100)
+                //     .attr("x", 100)
+                //     .attr("y", 100)
+                    
+                tooltip.append("rect")
+                    .attr("fill", "red")
+                    .attr("x", 0)
+                    .attr("y", 0)
+                    .attr("width", "100%")
+                    .attr("height", "100%")
+                    // .text("Hello World")
+                    // .attr("visibility", "hidden")
 
 
                 // ball that indicates location on graph
@@ -87,9 +111,9 @@
                     .append("image")
                         .attr("class", "ball")
                         .attr("href", "https://static.vecteezy.com/system/resources/previews/001/203/107/large_2x/baseball-png.png")
-                        .on('mouseover', mouseover)
-                        .on('mousemove', mousemove)
-                        .on('mouseout', mouseout);
+                        // .on('mouseover', mouseover)
+                        // .on('mousemove', mousemove)
+                        // .on('mouseout', mouseout);
 
                 // create annotation
                 d3.select("span").append("ul")
@@ -142,9 +166,10 @@
                     index = bisect(homeruns, x0, 1);
                     selectedData = homeruns[index];
 
-                    tooltip.html(formatToolTipText(selectedData));
+                    // tooltip.html(formatToolTipText(selectedData));
                     tooltip.attr("transform", "translate(" + margin +"," + margin +")")
-                    tooltip.style("top", homerunScale(selectedData.Total) + 130).style("left", yearScale(selectedData.Year))
+                    tooltip.attr("x", yearScale(selectedData.Year)).attr("y", homerunScale(selectedData.Total))
+                    // tooltip.text("Hello World")
 
                     ball.attr("x", yearScale(selectedData.Year) - 7);
                     ball.attr("y", homerunScale(selectedData.Total) - 7);

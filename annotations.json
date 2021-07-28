@@ -2,33 +2,55 @@
     {
         "year": 1920,
         "facts": [
+            "1901: Foul balls begin counting as strikes in the NL (the AL would follow suit in 1903)",
             "1903: First World Series is held",
-            "1910: Cork center introduced to offical MLB baseballs"
+            "1904: Cy Young throws 25.1 consecutive innings without giving up a hit",
+            "1910: Cork center introduced to offical MLB baseballs",
+            "1910: President Taft throws out the firs First Pitch on Opening Day",
+            "1919: 8 Chicago Black Sox players banned for fixing the 1919 World Series",
+            "1919: Babe Ruth converted from a pitcher to a right fieldsman and, more importantly, a batter. Becomes first player to hit 29 homeruns in a single season"
         ]
     },
     {
         "year": 1950,
         "facts": [
+            "1921: Ty Cobb becomes the yougest and quickest player to reach 3000 hits",
             "1925: Pitchers offically allowed to use resin bags",
+            "1932: Babe Ruths's Famous \"Called Shot\"",
             "1933: First All-Star game is played",
-            "1947: Jackie Robinson breaks the color barrier"
+            "1935: First night game is played by the Reds and Phillies",
+            "1936: First class is inaugurated in the MLB Hall of Fame",
+            "1938: Johnny Vander Meer throws two consecutive No-Hitters",
+            "1939: First televised game of baseball featuring the Brooklyn Dodgers and the Cincinatti Reds",
+            "1947: Jackie Robinson breaks the color barrier",
+            "1948: Babe Ruth's final Yankee Stadium apperiance"
         ]
     },
     {
         "year": 2000,
         "facts": [
             "1960: Strike zone reduced to only include the area from the batter's armpits to the tops of their knees",
-            "1968: Spitballs outlawed",
+            "1962: Yogi Berra wins his 10th World Series championship, the most by any single player",
+            "1968: MLB outlaws Spitballs outlawed and lowers pitchers mound from 15 inches to 10 inches",
             "1971: Batters required to wear helmets for protection",
             "1973: Designated Hitter rule is established",
+            "1975: Frank Robinson becomes first black manager",
+            "1979: Nolan Ryan becomes the first player to sign a contract worth more than $1 million",
+            "1985: MLB holds first ever HomeRun Derby",
+            "1994: MLB goes on strike result in the loss of a season",
             "1998: Steroid Era Begins"
         ]
     },
     {
         "year": 2019,
         "facts": [
-            "2016: The Chicago Cubs win first World Series title in 108 years",
-            "Test"
+            "2002: Sports Illustrated runs its \"Steroid's in Baseball\" Story, detailing the rampant steroid usage in the MLB",
+            "2005: MLB starts, including Mark McGwire, testify before the United States Congress in regards to steroid usage",
+            "2005: Amphetamines offically banned in the MLB",
+            "2007: Barry Bonds hits his 756th homerun, becoming the player with the most homeruns in MLB history",
+            "2007: The Mitchell Report is released, highlighting baseball's steroid epidemic",
+            "2008: MLB begins allowing Instant Replays to review homeruns",
+            "2016: The Chicago Cubs win first World Series title in 108 years"
         ]
     }
 ]
